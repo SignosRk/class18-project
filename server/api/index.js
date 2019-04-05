@@ -62,7 +62,7 @@ apiRouter
             return house.id === id;
         });
         if (!foundHouse) {
-            res.status(404).send(`House with ID: ${id} not found`);
+            res.status(404).json({ error: `House with ID: ${id} not found` });
             return;
         }
         res.json(foundHouse);
@@ -77,7 +77,7 @@ apiRouter
             fakeDb.splice(index, 1);
             res.send(`house ${id} is deleted`);
         } else {
-            res.send(`there was no house with id ${id}`);
+            res.status(404).send(`there was no house with id ${id}`);
         }
     });
 
