@@ -16,6 +16,9 @@ class App extends Component {
                     <li>
                         <Link to="/houses">Houses</Link>
                     </li>
+                    <li>
+                        <Link to="/contribute">Contribute</Link>
+                    </li>
                 </ul>
                 <Switch>
                     <Route exact path="/" component={Home} />
