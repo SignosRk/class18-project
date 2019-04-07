@@ -16,6 +16,11 @@ const fakeDb = [
         price: 140000,
         description: 'House in Amsterdam',
     },
+    {
+        id: 4,
+        price: 15000000,
+        description: 'House in Venezuela',
+    },
 ];
 
 function getNewId() {
