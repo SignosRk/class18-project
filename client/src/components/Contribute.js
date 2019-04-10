@@ -5,6 +5,7 @@ export default class Contribute extends Component {
         super(props);
         this.state = {
             error: null,
+            report: null,
         };
     }
     onSubmit = event => {
@@ -22,8 +23,7 @@ export default class Contribute extends Component {
                 if (data.error) {
                     this.setState({ error: data.error });
                 } else {
-                    this.setState({ error: null });
-                    console.log(data);
+                    this.setState({ error: null, report: data });
                 }
             })
             .catch(err => {
@@ -31,7 +31,7 @@ export default class Contribute extends Component {
             });
     };
     render() {
-        const { error } = this.state;
+        const { error, report } = this.state;
         return (
             <form onSubmit={this.onSubmit}>
                 <textarea
@@ -45,7 +45,22 @@ export default class Contribute extends Component {
                 {error && <div>{error}</div>}
                 <br />
                 <button type="submit">Submit</button>
+                <br />
+                {!!report && <Report report={report} />}
             </form>
         );
     }
 }
+
+const Report = ({ report }) => (
+    <div>
+        valid houses: {report.valid} <br />
+        invalid houses ({report.invalid.length}):{' '}
+        {report.invalid.map(data => (
+            <div>
+                messages: <pre>{JSON.stringify(data.errors, null, 2)}</pre>
+                raw: <pre>{JSON.stringify(data.raw, null, 2)}</pre>
+            </div>
+        ))}
+    </div>
+);
