@@ -32,7 +32,7 @@ const fakeDb = [
 ];
 
 const addHousesSql = `
-insert into houses(
+replace into houses(
   link, 
   location_country,
   location_city,
@@ -71,42 +71,26 @@ apiRouter
             }
         });
 
-        if (validData.length) {
-            try {
-                db.connect();
-                await db.queryPromise(addHousesSql, [
-                    validData.map(el => houseAsSqlParams(el.raw)),
-                ]);
-                db.end();
-            } catch (err) {
-                console.log(err);
-            }
-        }
-
         const report = {
             valid: validData.length,
             invalid: invalidData,
         };
 
-        // if (validData.length) {
-        //     try {
-        //         db.connect();
-
-        //         // const housesData = validData.map(el =>
-        //         //     houseAsSqlParams(el.raw)
-        //         // );
-        //         await db.queryPromise(addHousesSql, [
-        //             validData.map(el => houseAsSqlParams(el.raw)),
-        //         ]);
-        //         db.end();
-        //         return res.json(report);
-        //     } catch (err) {
-        //         return res.status(500).json({
-        //             error: err.message,
-        //         });
-        //     }
-        // }
-        res.json(report);
+        if (validData.length) {
+            try {
+                const housesData = validData.map(el =>
+                    houseAsSqlParams(el.raw)
+                );
+                await db.queryPromise(addHousesSql, [housesData]);
+                return res.json(report);
+            } catch (err) {
+                return res.status(500).json({
+                    error: err.message,
+                });
+            }
+        } else {
+            res.json(report);
+        }
     });
 
 apiRouter

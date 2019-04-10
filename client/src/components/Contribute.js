@@ -10,7 +10,7 @@ export default class Contribute extends Component {
     onSubmit = event => {
         event.preventDefault();
 
-        fetch(`http://localhost:8080/api/houses`, {
+        fetch(`/api/houses`, {
             method: 'POST',
             body: this.dataInput.value,
             headers: {

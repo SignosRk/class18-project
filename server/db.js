@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 var mysql = require('mysql');
 
 const { promisify } = require('util');

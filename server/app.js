@@ -13,12 +13,6 @@ app.use(bodyParser.json());
 
 app.use(express.static(path.join(__dirname, '..', 'client', 'build')));
 
-app.use('*', function logGetRequests(req, res, next) {
-    console.log(`someone made a request with ${req.method} method`);
-    res.sendFile(path.join(__dirname, '..', 'client', 'build'));
-    next();
-});
-
 app.use('/api', apiRouter);
 
 app.get('/', function(req, res) {
