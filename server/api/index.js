@@ -1,4 +1,12 @@
+/* eslint-disable no-console */
+/* eslint-disable no-unused-vars */
 const apiRouter = require('express').Router();
+
+const db = require('../db');
+
+const { validateHouse, houseAsSqlParams } = require('../validation');
+
+let lastId = 3;
 
 const fakeDb = [
     {
@@ -23,15 +31,16 @@ const fakeDb = [
     },
 ];
 
-function getNewId() {
-    let highestId = fakeDb[0].id;
-    fakeDb.forEach(house => {
-        if (house.id > highestId) {
-            highestId = house.id;
-        }
-    });
-    return highestId + 1;
-}
+const addHousesSql = `
+insert into houses(
+  link, 
+  location_country,
+  location_city,
+  size_rooms,
+  price_value,
+  price_currency
+) values ?;
+`;
 
 apiRouter.get('/', (req, res) => {
     res.send('triggered by GET /api/ path');
@@ -42,21 +51,62 @@ apiRouter
     .get((req, res) => {
         res.send(fakeDb);
     })
-    .post((req, res) => {
-        let { price } = req.body;
-        price = Number(price);
-        const newHouse = {
-            id: getNewId(),
-            price,
-            description: req.body.description,
+    .post(async (req, res) => {
+        if (!Array.isArray(req.body)) {
+            return res.status(400).json({ error: 'Data should be an array' });
+        }
+
+        const processedData = req.body.map(houseObj => {
+            return validateHouse(houseObj);
+        });
+
+        const validData = [];
+        const invalidData = [];
+
+        processedData.forEach(el => {
+            if (el.valid) {
+                validData.push(el);
+            } else {
+                invalidData.push(el);
+            }
+        });
+
+        if (validData.length) {
+            try {
+                db.connect();
+                await db.queryPromise(addHousesSql, [
+                    validData.map(el => houseAsSqlParams(el.raw)),
+                ]);
+                db.end();
+            } catch (err) {
+                console.log(err);
+            }
+        }
+
+        const report = {
+            valid: validData.length,
+            invalid: invalidData,
         };
 
-        if (Number.isNaN(price) || price <= 0) {
-            res.status(400).end('price should a positive number');
-        } else {
-            fakeDb.push(newHouse);
-            res.json(newHouse);
-        }
+        // if (validData.length) {
+        //     try {
+        //         db.connect();
+
+        //         // const housesData = validData.map(el =>
+        //         //     houseAsSqlParams(el.raw)
+        //         // );
+        //         await db.queryPromise(addHousesSql, [
+        //             validData.map(el => houseAsSqlParams(el.raw)),
+        //         ]);
+        //         db.end();
+        //         return res.json(report);
+        //     } catch (err) {
+        //         return res.status(500).json({
+        //             error: err.message,
+        //         });
+        //     }
+        // }
+        res.json(report);
     });
 
 apiRouter
@@ -81,9 +131,8 @@ apiRouter
         if (index > -1) {
             fakeDb.splice(index, 1);
             res.send(`house ${id} is deleted`);
-        } else {
-            res.status(404).send(`there was no house with id ${id}`);
         }
+        res.status(404).send(`there was no house with id ${id}`);
     });
 
 apiRouter.use((req, res) => {
