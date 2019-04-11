@@ -1,3 +1,5 @@
+const validator = require('validator');
+
 const requiredFields = [
     'link',
     'location_country',
@@ -21,7 +23,16 @@ const validateHouse = houseObj => {
                 errors.push(`${field}: is required`);
             }
         });
+
+        if (!validator.isURL(houseObj['link'])) {
+            valid = false;
+            errors.push(`Link must be an url`);
+        } else if (!validator.isNumeric(houseObj['price_value'])) {
+            valid = false;
+            errors.push(`price value has to be a numeric value`);
+        }
     }
+
     return {
         valid,
         errors,
