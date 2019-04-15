@@ -56,7 +56,7 @@ export default class HousesList extends Component {
                 {houses.map(houseObj => (
                     <div key={houseObj.id}>
                         <Link to={`/houses/${houseObj.id}`}>
-                            {houseObj.description}{' '}
+                            {houseObj.location_country}{' '}
                         </Link>
                     </div>
                 ))}

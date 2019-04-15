@@ -56,9 +56,11 @@ export default class HousesDetails extends Component {
 
         return (
             <div>
-                id: {houseDetails.id}
+                city: {houseDetails.location_city}
                 <br />
                 price: {houseDetails.price}
+                <br />
+                price_currency: {houseDetails.price_currency}
             </div>
         );
     }

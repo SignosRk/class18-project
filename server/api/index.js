@@ -48,8 +48,15 @@ apiRouter.get('/', (req, res) => {
 
 apiRouter
     .route('/houses')
-    .get((req, res) => {
-        res.send(fakeDb);
+    .get(async (req, res) => {
+        try {
+            const houses = await db.queryPromise('select * from houses');
+            console.log(houses);
+            res.send(houses);
+        } catch (err) {
+            console.log(err);
+            res.status(400).json({ error: err.message });
+        }
     })
     .post(async (req, res) => {
         if (!Array.isArray(req.body)) {
@@ -96,15 +103,15 @@ apiRouter
 apiRouter
     .route('/houses/:id')
     .get((req, res) => {
-        const id = Number(req.params.id);
-        const foundHouse = fakeDb.find(house => {
-            return house.id === id;
-        });
-        if (!foundHouse) {
-            res.status(404).json({ error: `House with ID: ${id} not found` });
-            return;
-        }
-        res.json(foundHouse);
+        // const id = Number(req.params.id);
+        // const foundHouse = fakeDb.find(house => {
+        //     return house.id === id;
+        // });
+        // if (!foundHouse) {
+        //     res.status(404).json({ error: `House with ID: ${id} not found` });
+        //     return;
+        // }
+        // res.json(foundHouse);
     })
     .delete((req, res) => {
         const { id } = req.params;
