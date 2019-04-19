@@ -12,13 +12,14 @@ export default class HousesDetails extends Component {
     }
 
     componentDidMount() {
-        const { id } = this.props.match.params;
+        const { id } = this.props.match.params.id;
+        console.log(id);
         this.setState({
             loading: true,
             error: null,
         });
 
-        fetch(`http://localhost:8080/api/houses/${id}`)
+        fetch(`/api/houses/${id}`)
             .then(res => res.json())
             .then(data => {
                 if (data.error) {
@@ -29,7 +30,7 @@ export default class HousesDetails extends Component {
                 } else {
                     this.setState({
                         houseDetails: data,
-                        error: null,
+                        error: data.error,
                         loading: false,
                     });
                 }
@@ -52,16 +53,16 @@ export default class HousesDetails extends Component {
 
         if (loading) {
             return <div>Loading...</div>;
+        } else {
+            return (
+                <div>
+                    city: {houseDetails.location_city}
+                    <br />
+                    price: {houseDetails.price}
+                    <br />
+                    price_currency: {houseDetails.price_currency}
+                </div>
+            );
         }
-
-        return (
-            <div>
-                city: {houseDetails.location_city}
-                <br />
-                price: {houseDetails.price}
-                <br />
-                price_currency: {houseDetails.price_currency}
-            </div>
-        );
     }
 }
