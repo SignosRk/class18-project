@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './contribute.css';
 
 export default class Contribute extends Component {
     constructor(props) {
@@ -34,14 +35,9 @@ export default class Contribute extends Component {
         const { error, report } = this.state;
         return (
             <form onSubmit={this.onSubmit}>
-                <textarea
-                    ref={input => (this.dataInput = input)}
-                    style={{
-                        width: '300px',
-                        height: '200px',
-                        display: 'block',
-                    }}
-                />
+                <div>Add a new house to sell</div>
+                <br />
+                <textarea ref={input => (this.dataInput = input)} />
                 {error && <div>{error}</div>}
                 <br />
                 <button type="submit">Submit</button>

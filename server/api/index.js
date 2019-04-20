@@ -6,28 +6,14 @@ const db = require('../db');
 
 const { validateHouse, houseAsSqlParams } = require('../validation');
 
+const HOUSES_PER_PAGE = 2;
+
 let lastId = 3;
 
 const fakeDb = [
     {
         id: 1,
-        price: 150000,
-        description: 'House in London',
-    },
-    {
-        id: 2,
-        price: 120000,
-        description: 'House in Las Vegas',
-    },
-    {
-        id: 3,
-        price: 140000,
-        description: 'House in Amsterdam',
-    },
-    {
-        id: 4,
-        price: 15000000,
-        description: 'House in Venezuela',
+        price_value: 2555560,
     },
 ];
 
@@ -49,11 +35,98 @@ apiRouter.get('/', (req, res) => {
 apiRouter
     .route('/houses')
     .get(async (req, res) => {
+        let {
+            price_min = 0,
+            price_max = 2000000,
+            order = 'location_country_asc',
+            page = 1,
+            location_city = '',
+        } = req.query;
+        // backend validations
+        price_min = parseInt(price_min, 10);
+        if (Number.isNaN(price_min) || price_min < 0) {
+            return res.status(400).json({
+                error: `'price_min' should be positive number`,
+            });
+        }
+
+        price_max = parseInt(price_max, 10);
+        if (Number.isNaN(price_max) || price_max < 0) {
+            return res.status(400).json({
+                error: `'price_max' should be positive number`,
+            });
+        }
+
+        if (price_max < price_min) {
+            return res.status(400).json({
+                error: `'price_max' should be greater than 'price_min'`,
+            });
+        }
+        page = parseInt(page, 10);
+        if (Number.isNaN(page) || page <= 0) {
+            return res.status(400).json({
+                error: `'page' should be a number more than 0`,
+            });
+        }
+
+        let order_field, order_direction;
+
+        const index = order.lastIndexOf('_');
+        if (index > 0) {
+            order_field = order.slice(0, index);
+            order_direction = order.slice(index + 1);
+
+            if (['asc', 'desc'].indexOf(order_direction) === -1) {
+                order_direction = 'asc';
+                return res.status(400).json({
+                    error: `'order' para is wrong`,
+                });
+            }
+        } else {
+            return res.status(400).json({
+                error: `'order' param is wrong`,
+            });
+        }
+
+        const offset = (page - 1) * HOUSES_PER_PAGE;
+
+        const conditions = [`(price_value between ? and ?)`];
+
+        const params = [price_min, price_max];
+
+        if (location_city.length) {
+            conditions.push(`location_city = ?`);
+            params.push(location_city);
+        }
+
+        const queryBody = `
+            from houses
+            where ${conditions.join(' and ')}
+          `;
+
+        const queryTotal = `
+            select count(id) as total
+            ${queryBody}
+        `;
+        const queryItems = `
+            select *
+            ${queryBody}
+            order by ${db.escapeId(order_field, true)} ${order_direction}
+            limit ${HOUSES_PER_PAGE}
+            offset ${offset};
+            `;
+
         try {
-            const houses = await db.queryPromise('select * from houses');
-            res.send(houses);
+            const total = await db.queryPromise(queryTotal, params);
+            const houses = await db.queryPromise(queryItems, params);
+            res.json({
+                total: total[0].total,
+                houses,
+                pageSize: HOUSES_PER_PAGE,
+            });
         } catch (err) {
-            console.log(err);
+            console.log(err.sql);
+            console.log(Object.keys(err));
             res.status(400).json({ error: err.message });
         }
     })
@@ -101,17 +174,19 @@ apiRouter
 
 apiRouter
     .route('/houses/:id')
-    .get((req, res) => {
-        const id = Number(req.params.id);
-        const foundHouse = fakeDb.find(house => {
-            return house.id === id;
-        });
-        if (!foundHouse) {
-            res.status(404).json({ error: `House with ID: ${id} not found` });
-            return;
-        }
-        res.json(foundHouse);
-    })
+    // .get(async (req, res) => {
+    //     const houses = await db.queryPromise('select * from houses');
+    //     const { id } = req.params;
+    //     console.log(id);
+    //     const foundHouse = houses.find(house => {
+    //         return house.id === id;
+    //     });
+    //     if (!foundHouse) {
+    //         res.status(404).json({ error: `House with ID: ${id} not found` });
+    //         return;
+    //     }
+    //     res.json(foundHouse);
+    // })
     .delete((req, res) => {
         const { id } = req.params;
         const index = fakeDb.findIndex(house => {

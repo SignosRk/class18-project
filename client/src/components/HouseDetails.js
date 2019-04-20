@@ -54,15 +54,7 @@ export default class HousesDetails extends Component {
         if (loading) {
             return <div>Loading...</div>;
         } else {
-            return (
-                <div>
-                    city: {houseDetails.location_city}
-                    <br />
-                    price: {houseDetails.price}
-                    <br />
-                    price_currency: {houseDetails.price_currency}
-                </div>
-            );
+            return <div>price: {houseDetails.price}</div>;
         }
     }
 }
