@@ -220,32 +220,6 @@ export default class HouseForm extends Component {
 
                     {error && <div>{error}</div>}
 
-                    {Array.from({ length: pages || 0 }, (value, index) => {
-                        const _page = index + 1;
-                        return (
-                            <div
-                                key={_page}
-                                className={`${page == _page ? 'active' : ''}`}
-                                onClick={() => {
-                                    this.setState(
-                                        {
-                                            ...this.state,
-                                            searchCriteria: {
-                                                ...this.state.searchCriteria,
-                                                page: _page,
-                                            },
-                                        },
-                                        () => {
-                                            this.fetchHouses(true);
-                                        }
-                                    );
-                                }}
-                            >
-                                {_page}
-                            </div>
-                        );
-                    })}
-
                     {houses.length === 0 ? (
                         <div>No houses yet</div>
                     ) : (
@@ -265,6 +239,34 @@ export default class HouseForm extends Component {
                             </div>
                         ))
                     )}
+
+                    {Array.from({ length: pages || 0 }, (value, index) => {
+                        const _page = index + 1;
+                        return (
+                            <div
+                                key={_page}
+                                className={`${
+                                    page == _page ? 'active' : 'inactive'
+                                }`}
+                                onClick={() => {
+                                    this.setState(
+                                        {
+                                            ...this.state,
+                                            searchCriteria: {
+                                                ...this.state.searchCriteria,
+                                                page: _page,
+                                            },
+                                        },
+                                        () => {
+                                            this.fetchHouses(true);
+                                        }
+                                    );
+                                }}
+                            >
+                                {_page}
+                            </div>
+                        );
+                    })}
                 </div>
             </form>
         );

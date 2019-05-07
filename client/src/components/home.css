@@ -16,19 +16,19 @@
     background-size: cover;
     position: absolute;
 }
-
-.home-landing-page h1,
-h3 {
+ */
+.home-landing-page > h1,
+.home-landing-page > h3 {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.home-landing-page h1 {
+.home-landing-page > h1 {
     font-size: 30px;
 }
 
-.home-landing-page h3 {
+.home-landing-page > h3 {
     font-size: 24px;
     color: grey;
-} */
+}
