@@ -37,19 +37,14 @@ export default class Documentation extends Component {
                         <div id="introduction">
                             <h2>Introduction</h2>
                             <p>
-                                The Open Source Factory is to aim that the
+                                The Open Source Factory's main goal is that
                                 information reaches people freely. In This
-                                context, <strong>Free Real Estate</strong>
-                                serves real estate information to developers in
-                                a free and useful way. Developers can get the
-                                information as json file effortlessly and in the
-                                meantime, we display the houses in mesmerising
-                                way for everyone. We always make an effort to
-                                keep updated our database and moreover expand
-                                it. Nevertheless, we are open for your valuable
-                                contribution. By uploading new house information
-                                into our system, you can help us out to attain
-                                our global goal.
+                                context, we provide this REST API that finds,
+                                uploads and sells houses. Everyone can interact
+                                with the application and reading the
+                                documentation will guide you on how to
+                                contribute with us by adding more houses to sell
+                                following a certain format.
                             </p>
                         </div>
 
