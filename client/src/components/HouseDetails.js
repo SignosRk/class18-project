@@ -1,60 +1,51 @@
 import React, { Component } from 'react';
 
-export default class HousesDetails extends Component {
+export default class HouseDetails extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
             houseDetails: {},
             error: null,
-            loading: false,
+            loading: null,
         };
     }
-
     componentDidMount() {
-        const { id } = this.props.match.params.id;
-        console.log(id);
-        this.setState({
-            loading: true,
-            error: null,
-        });
-
-        fetch(`/api/houses/${id}`)
-            .then(res => res.json())
-            .then(data => {
-                if (data.error) {
+        this.setState({ loading: true });
+        fetch('http://localhost:8080/api/houses/' + this.props.match.params.id)
+            .then(data => data.json())
+            .then(details => {
+                if (details.error) {
                     this.setState({
-                        error: data.error,
-                        loading: false,
+                        error: details.error,
+                        loading: null,
                     });
                 } else {
                     this.setState({
-                        houseDetails: data,
-                        error: data.error,
-                        loading: false,
+                        houseDetails: details[0],
+                        error: null,
+                        loading: null,
                     });
                 }
             })
-
-            .catch(() => {
-                this.setState({
-                    error: 'Something is wrong',
-                    loading: false,
-                });
-            });
+            .catch(err =>
+                this.setState({ error: 'Something went wrong!', loading: null })
+            );
     }
 
     render() {
         const { houseDetails, error, loading } = this.state;
-
         if (error) {
             return <div>{error}</div>;
         }
-
         if (loading) {
             return <div>Loading...</div>;
-        } else {
-            return <div>price: {houseDetails.price}</div>;
         }
+
+        return (
+            <ul>
+                <li>House id: {houseDetails.id}</li>
+                <li>Price: {houseDetails.price_value}</li>
+            </ul>
+        );
     }
 }

@@ -4,6 +4,7 @@ import Home from './components/Home';
 import Contribute from './components/Contribute';
 import HouseForm from './components/HouseForm';
 import HouseDetails from './components/HouseDetails';
+import Documentation from './components/Documentation';
 
 class App extends Component {
     render() {
@@ -20,6 +21,9 @@ class App extends Component {
                         <li>
                             <Link to="/contribute">Contribute</Link>
                         </li>
+                        <li>
+                            <Link to="/documentation">Documentation</Link>
+                        </li>
                     </ul>
                 </nav>
                 <Switch>
@@ -27,6 +31,11 @@ class App extends Component {
                     <Route exact path="/contribute" component={Contribute} />
                     <Route exact path="/houses" component={HouseForm} />
                     <Route exact path="/houses/:id" component={HouseDetails} />
+                    <Route
+                        exact
+                        path="/documentation"
+                        component={Documentation}
+                    />
                     <Route render={() => <div>404</div>} />
                 </Switch>
             </div>

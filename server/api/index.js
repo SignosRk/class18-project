@@ -8,15 +8,6 @@ const { validateHouse, houseAsSqlParams } = require('../validation');
 
 const HOUSES_PER_PAGE = 2;
 
-let lastId = 3;
-
-const fakeDb = [
-    {
-        id: 1,
-        price_value: 2555560,
-    },
-];
-
 const addHousesSql = `
 replace into houses(
   link, 
@@ -36,6 +27,7 @@ apiRouter
     .route('/houses')
     .get(async (req, res) => {
         let {
+            size_rooms = 'all',
             price_min = 0,
             price_max = 2000000,
             order = 'location_country_asc',
@@ -43,6 +35,11 @@ apiRouter
             location_city = '',
         } = req.query;
         // backend validations
+        if (['all', '1', '2', '3', '4_or_more'].indexOf(size_rooms) === -1) {
+            return res
+                .status(400)
+                .json({ error: `'size_rooms' param is wrong` });
+        }
         price_min = parseInt(price_min, 10);
         if (Number.isNaN(price_min) || price_min < 0) {
             return res.status(400).json({
@@ -97,6 +94,13 @@ apiRouter
         if (location_city.length) {
             conditions.push(`location_city = ?`);
             params.push(location_city);
+        }
+        if (size_rooms === '4_or_more') {
+            conditions.push('size_rooms >= ?');
+            params.push(4);
+        } else if (size_rooms !== 'all') {
+            conditions.push('size_rooms = ?');
+            params.push(size_rooms);
         }
 
         const queryBody = `
@@ -172,33 +176,31 @@ apiRouter
         }
     });
 
-apiRouter
-    .route('/houses/:id')
-    // .get(async (req, res) => {
-    //     const houses = await db.queryPromise('select * from houses');
-    //     const { id } = req.params;
-    //     console.log(id);
-    //     const foundHouse = houses.find(house => {
-    //         return house.id === id;
-    //     });
-    //     if (!foundHouse) {
-    //         res.status(404).json({ error: `House with ID: ${id} not found` });
-    //         return;
-    //     }
-    //     res.json(foundHouse);
-    // })
-    .delete((req, res) => {
-        const { id } = req.params;
-        const index = fakeDb.findIndex(house => {
-            return house.id === parseInt(id, 10);
-        });
-
-        if (index > -1) {
-            fakeDb.splice(index, 1);
-            res.send(`house ${id} is deleted`);
-        }
-        res.status(404).send(`there was no house with id ${id}`);
+apiRouter.route('/houses/:id').get(async (req, res) => {
+    const { id } = req.params;
+    const houses = await db.queryPromise('select * from houses');
+    console.log(id);
+    const foundHouse = houses.find(house => {
+        return house.id === id;
     });
+    if (!foundHouse) {
+        res.status(404).json({ error: `House with ID: ${id} not found` });
+        return;
+    }
+    res.json(foundHouse);
+});
+// .delete((req, res) => {
+//     const { id } = req.params;
+//     const index = fakeDb.findIndex(house => {
+//         return house.id === parseInt(id, 10);
+//     });
+
+//     if (index > -1) {
+//         fakeDb.splice(index, 1);
+//         res.send(`house ${id} is deleted`);
+//     }
+//     res.status(404).send(`there was no house with id ${id}`);
+// });
 
 apiRouter.use((req, res) => {
     res.status(404).end();

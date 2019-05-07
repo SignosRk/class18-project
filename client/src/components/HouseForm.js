@@ -10,6 +10,7 @@ export default class HouseForm extends Component {
             error: null,
             loading: false,
             searchCriteria: {
+                size_rooms: 'all',
                 price_min: 0,
                 price_max: 2000000,
                 city: '',
@@ -114,7 +115,14 @@ export default class HouseForm extends Component {
             loading,
             pageSize,
             total,
-            searchCriteria: { price_min, price_max, city, order, page },
+            searchCriteria: {
+                size_rooms,
+                price_min,
+                price_max,
+                city,
+                order,
+                page,
+            },
         } = this.state;
 
         console.log(page, pageSize, total);
@@ -124,6 +132,20 @@ export default class HouseForm extends Component {
         return (
             <form>
                 <div>
+                    <label>Total number of rooms</label>
+                    <br />
+                    <select
+                        name="size_rooms"
+                        value={size_rooms}
+                        onChange={this.handleInputChange}
+                    >
+                        <option value="all">Display all</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4_or_more">4 +</option>
+                    </select>
+                    <br />
                     <label>
                         Price min:
                         <br />
@@ -236,6 +258,7 @@ export default class HouseForm extends Component {
                                     Country: {houseObj.location_country}
                                     <br />
                                     City: {houseObj.location_city} <br />
+                                    Rooms: {houseObj.size_rooms} <br />
                                 </Link>
                                 <br />
                                 <br />
