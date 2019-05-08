@@ -12,10 +12,11 @@ const toolbar = props => (
     <div>
         <header className="toolbar">
             <nav className="toolbar-nav">
+                <div />
+                <div className="spacer" />
                 <div className="toolbar-toggle-button">
                     <ToggleButton click={props.buttonClickHandler} />
                 </div>
-                <div className="spacer" />
                 <div className="toolbar-nav-items">
                     <ul>
                         <li>
