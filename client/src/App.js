@@ -1,43 +1,34 @@
 import React, { Component } from 'react';
-import { Link, Route, Switch } from 'react-router-dom';
-import Home from './components/Home';
-import Contribute from './components/Contribute';
-import HouseForm from './components/HouseForm';
-import HouseDetails from './components/HouseDetails';
-import Documentation from './components/Documentation';
+import Toolbar from './components/Toolbar/Toolbar';
+import SideBar from './components/SideBar/SideBar';
+import Backdrop from './components/SideBar/BackDrop/Backdrop';
 
 class App extends Component {
+    state = {
+        sideBarOpen: false,
+    };
+    toggleClickHandler = () => {
+        this.setState(prevState => {
+            return { sideBarOpen: !prevState.sideBarOpen };
+        });
+    };
+
+    backdropClickHandler = () => {
+        this.setState({ sideBarOpen: false });
+    };
     render() {
+        let backdrop;
+        if (this.state.sideBarOpen) {
+            backdrop = <Backdrop click={this.backdropClickHandler} />;
+        }
         return (
-            <div className="App">
-                <nav>
-                    <ul>
-                        <li>
-                            <Link to="/">Home</Link>
-                        </li>
-                        <li>
-                            <Link to="/houses">Houses</Link>
-                        </li>
-                        <li>
-                            <Link to="/contribute">Contribute</Link>
-                        </li>
-                        <li>
-                            <Link to="/documentation">Documentation</Link>
-                        </li>
-                    </ul>
-                </nav>
-                <Switch>
-                    <Route exact path="/" component={Home} />
-                    <Route exact path="/contribute" component={Contribute} />
-                    <Route exact path="/houses" component={HouseForm} />
-                    <Route exact path="/houses/:id" component={HouseDetails} />
-                    <Route
-                        exact
-                        path="/documentation"
-                        component={Documentation}
-                    />
-                    <Route render={() => <div>404</div>} />
-                </Switch>
+            <div style={{ height: '100%' }}>
+                <Toolbar buttonClickHandler={this.toggleClickHandler} />
+                <SideBar show={this.state.sideBarOpen} />
+                {backdrop}
+                {/* <main style={{ marginTop: '64px' }}>
+                    <p>Content</p>
+                </main> */}
             </div>
         );
     }
