@@ -23,11 +23,12 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin-top: -2.5rem;
     margin-left: -2.6rem;
 }
 
 .side-bar li {
-    margin: 0.3rem 0;
+    margin: 0.5rem 0;
 }
 
 .side-bar a {
