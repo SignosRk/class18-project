@@ -1,11 +1,18 @@
 html {
     height: 100%;
+    scroll-behavior: smooth;
+}
+
+@font-face {
+    font-family: Charter;
+    src: url('./assets/fonts/charter/ttf/Charter_Regular.ttf')
+        format('truetype');
 }
 
 body {
-    margin: 0;
+    margin-top: 0;
     padding: 0;
-    font-family: sans-serif;
+    font-family: Charter;
     height: 100%;
 }
 

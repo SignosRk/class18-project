@@ -35,6 +35,7 @@ export default class Contribute extends Component {
         const { error, report } = this.state;
         return (
             <form onSubmit={this.onSubmit}>
+                <br /> <br /> <br />
                 <div>Add a new house to sell</div>
                 <br />
                 <textarea ref={input => (this.dataInput = input)} />

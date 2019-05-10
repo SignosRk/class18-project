@@ -1,10 +1,11 @@
 .toolbar {
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    background: #3f3f3f;
+    background: transparent;
     height: 56px;
+    z-index: 100;
 }
 
 .toolbar-nav {
@@ -26,20 +27,24 @@
 }
 
 .toolbar-nav-items li {
-    padding: 0 0.6rem;
+    padding: 0 2rem;
 }
 
 .toolbar-nav-items a {
+    font-size: 24px;
     color: #fff;
     text-decoration: none;
 }
 
 .toolbar-nav-items a:hover,
 .toolbar-nav-items a:active {
-    color: aqua;
+    text-decoration: underline;
 }
 
 @media (max-width: 768px) {
+    /* .toolbar {
+        position: fixed;
+    } */
     .toolbar-nav-items {
         display: none;
     }

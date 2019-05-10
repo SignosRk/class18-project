@@ -132,6 +132,7 @@ export default class HouseForm extends Component {
         return (
             <form>
                 <div>
+                    <br /> <br /> <br />
                     <label>Total number of rooms</label>
                     <br />
                     <select
@@ -217,7 +218,6 @@ export default class HouseForm extends Component {
 
                 <div>
                     {loading && <div>Loading...</div>}
-
                     {error && <div>{error}</div>}
 
                     {houses.length === 0 ? (
@@ -239,7 +239,6 @@ export default class HouseForm extends Component {
                             </div>
                         ))
                     )}
-
                     {Array.from({ length: pages || 0 }, (value, index) => {
                         const _page = index + 1;
                         return (
