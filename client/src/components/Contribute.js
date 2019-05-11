@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './contribute.css';
+import './contribute.sass';
 
 export default class Contribute extends Component {
     constructor(props) {

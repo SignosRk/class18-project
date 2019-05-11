@@ -226,6 +226,7 @@ export default class HouseForm extends Component {
                         houses.map(houseObj => (
                             <div key={houseObj.id}>
                                 <Link to={`/houses/${houseObj.id}`}>
+                                    <br />
                                     Price: {houseObj.price_value}{' '}
                                     {houseObj.price_currency}
                                     <br />

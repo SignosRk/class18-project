@@ -26,9 +26,6 @@ class App extends Component {
                 <Toolbar buttonClickHandler={this.toggleClickHandler} />
                 <SideBar show={this.state.sideBarOpen} />
                 {backdrop}
-                {/* <main style={{ marginTop: '64px' }}>
-                    <p>Content</p>
-                </main> */}
             </div>
         );
     }

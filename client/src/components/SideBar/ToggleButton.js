@@ -1,5 +1,5 @@
 import React from 'react';
-import './toggleButton.css';
+import './toggleButton.sass';
 
 const toggleButton = props => (
     <button className="toggle-button" onClick={props.click}>

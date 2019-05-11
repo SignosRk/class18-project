@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import './sideBar.css';
+import './sideBar.sass';
 
 const SideBar = props => {
     let sideBarClasses = 'side-bar';

@@ -5,7 +5,7 @@ import Contribute from '../Contribute';
 import HouseForm from '../HouseForm';
 import HouseDetails from '../HouseDetails';
 import Documentation from '../Documentation';
-import './Toolbar.css';
+import './Toolbar.sass';
 import ToggleButton from '../SideBar/ToggleButton';
 
 const toolbar = props => (

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './home.css';
+import './home.sass';
 import '../../../node_modules/font-awesome/css/font-awesome.min.css';
 
 export default class Home extends Component {

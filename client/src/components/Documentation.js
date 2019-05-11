@@ -12,7 +12,7 @@ export default class Documentation extends Component {
         };
 
         return (
-            <div className="addElement">
+            <div className="container">
                 <br /> <br /> <br />
                 <h1>API Documentation</h1>
                 <div className="index-content">
