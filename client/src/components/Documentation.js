@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './documentation.sass';
 
 export default class Documentation extends Component {
     render() {
@@ -12,7 +13,7 @@ export default class Documentation extends Component {
         };
 
         return (
-            <div className="container">
+            <div className="documentation-container">
                 <br /> <br /> <br />
                 <h1>API Documentation</h1>
                 <div className="index-content">

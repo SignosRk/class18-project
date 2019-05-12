@@ -34,14 +34,16 @@ export default class Contribute extends Component {
     render() {
         const { error, report } = this.state;
         return (
-            <form onSubmit={this.onSubmit}>
+            <form className="contribute-container" onSubmit={this.onSubmit}>
                 <br /> <br /> <br />
-                <div>Add a new house to sell</div>
+                <div className="contribute-title">Add a new house to sell</div>
                 <br />
                 <textarea ref={input => (this.dataInput = input)} />
                 {error && <div>{error}</div>}
                 <br />
-                <button type="submit">Submit</button>
+                <button className="btn-submit" type="submit">
+                    Submit
+                </button>
                 <br />
                 {!!report && <Report report={report} />}
             </form>

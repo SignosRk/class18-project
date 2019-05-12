@@ -1,6 +1,7 @@
 /* eslint-disable eqeqeq */
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import './houseForm.sass';
 
 export default class HouseForm extends Component {
     constructor(props) {
@@ -130,7 +131,7 @@ export default class HouseForm extends Component {
         const pages = Math.ceil(total / pageSize);
 
         return (
-            <form>
+            <form className="house-form">
                 <div>
                     <br /> <br /> <br />
                     <label>Total number of rooms</label>
@@ -235,7 +236,7 @@ export default class HouseForm extends Component {
                                     City: {houseObj.location_city} <br />
                                     Rooms: {houseObj.size_rooms} <br />
                                 </Link>
-                                <br />
+
                                 <br />
                             </div>
                         ))

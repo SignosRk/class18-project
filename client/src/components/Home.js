@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './home.sass';
 import '../../../node_modules/font-awesome/css/font-awesome.min.css';
+import { Link } from 'react-router-dom';
 
 export default class Home extends Component {
     render() {
@@ -107,8 +108,8 @@ export default class Home extends Component {
                     <div className="home-landpage-waitingFor">
                         <h3>What are you waiting for?</h3>
                         <p>
-                            Find your <span>next house,</span> or go{' '}
-                            <span>contribute!</span>
+                            Find your <Link to="/houses">next house,</Link> or
+                            go <Link to="/contribute">contribute!</Link>
                         </p>
                     </div>
                     <div className="footer">
