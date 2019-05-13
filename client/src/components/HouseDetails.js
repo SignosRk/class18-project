@@ -21,7 +21,7 @@ export default class HouseDetails extends Component {
                     });
                 } else {
                     this.setState({
-                        houseDetails: details[0],
+                        houseDetails: details,
                         error: null,
                         loading: null,
                     });

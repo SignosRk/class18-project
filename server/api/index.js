@@ -10,12 +10,21 @@ const HOUSES_PER_PAGE = 2;
 
 const addHousesSql = `
 replace into houses(
-  link, 
+  link ,
+  market_date,
   location_country,
-  location_city,
+  location_city ,
+  location_address,
+  location_coordinates_lat,
+  location_coordinates_lng,
+  size_living_area,
   size_rooms,
   price_value,
-  price_currency
+  price_currency,
+  description,
+  title,
+  images,
+  sold
 ) values ?;
 `;
 
@@ -139,8 +148,8 @@ apiRouter
             return res.status(400).json({ error: 'Data should be an array' });
         }
 
-        const processedData = req.body.map(houseObj => {
-            return validateHouse(houseObj);
+        const processedData = req.body.map(houseObject => {
+            return validateHouse(houseObject);
         });
 
         const validData = [];
@@ -178,7 +187,7 @@ apiRouter
 
 apiRouter.route('/houses/:id').get(async (req, res) => {
     const { id } = req.params;
-    const houses = await db.queryPromise('select * from houses');
+    const houses = await db.queryPromise('select * from houses where id=id');
     console.log(id);
     const foundHouse = houses.find(house => {
         return house.id === id;

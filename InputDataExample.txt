@@ -1,0 +1,17 @@
+[{
+"link": "funda.nl/url",
+"market_date": "1995-04-26",
+"location_country": "France",
+"location_city": "Paris",
+"location_address": "street name",
+"location_coordinates_lat": 35.929673,
+"location_coordinates_lng": -78.948237,
+"size_living_area": 66,
+"size_rooms": 1,
+"price_value": 260000,
+"price_currency": "EUR", 
+"description": "description of house",
+"title": "Apartement",
+"images": "https://www.livescience.com/65030-usda-kitten-cannibalism-research.html,https://www.google.com/search?q=cat&source=lnms&tbm=isch&sa=X&ved",
+"sold": 0
+}]

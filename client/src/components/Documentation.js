@@ -5,11 +5,19 @@ export default class Documentation extends Component {
     render() {
         const jsonFileFormat = {
             link: 'string url - NOT NULL',
+            market_date: 'string date NOT NULL',
             location_country: 'string - NOT NULL',
             location_city: 'string - NOT NULL',
+            location_address: 'string',
+            location_coordinates_lat: 'Number Latitude coordinates',
+            location_coordinates_lng: 'Number Longitude coordinates',
+            size_living_area: 'Number NOT NULL',
             size_rooms: 'number - NOT NULL',
             price_value: 'number - NOT NULL',
             price_currency: 'string - 3chars - NOT NULL',
+            title: 'string',
+            images: 'string url image',
+            sold: 'Number 1/0',
         };
 
         return (
